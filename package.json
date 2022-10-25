@@ -1,0 +1,25 @@
+{
+  "name": "regex-file-search",
+  "version": "1.0.0",
+  "description": "search for regular expression matches in files",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "search": "node ./scripts/search.js"
+  },
+  "author": "Sean Nicholls seannicholls@gmail.com",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@root/walk": "^1.1.0",
+    "istextorbinary": "^6.0.0",
+    "line-column": "^1.0.2",
+    "process.argv": "^0.6.0"
+  },
+  "devDependencies": {
+    "flourite": "^1.2.2"
+  }
+}
