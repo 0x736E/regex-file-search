@@ -22,9 +22,10 @@ There are a number of configuration options:
 npm run search -- --help
 
 usage: search [options]
---help                : this message
---inputDir='filePath' : specify a path to search for matches
---perfMode            : disable performance mode
+--help                    : this message
+--inputDir='filePath'     : specify a path to search for matches
+--outputFile='filePath'   : specify a path to output results in a file
+--perfMode                : disable performance mode
 ```
 
 ### Example usage

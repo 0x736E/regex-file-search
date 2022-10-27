@@ -2,18 +2,23 @@ const PATTERNS = require('../config/patterns.js');
 const { WalkerRegexRanger, WalkerRegexRangerException } = require('../lib/index.js');
 const processArgv = require("process.argv")(process.argv.slice(2));
 const flourite = require('flourite');
+const fs = require('fs');
+const path = require('path');
 
 const config = processArgv({
   inputDir: './data/',
   perfMode: true,         // enable this to run faster by excluding some metadata
+  summaryOnly: false
 });
 
 if ( config.help ) {
 
   let msg = `usage: search [options]
-  --help                : this message
-  --inputDir='filePath' : specify a path to search for matches
-  --perfMode            : disable performance mode
+  --help                    : this message
+  --inputDir='filePath'     : specify a path to search for matches
+  --outputFile='filePath'   : specify a path to output results in a file
+  --perfMode                : disable performance mode
+  --summaryOnly             : do not include match data, only a summary
   `;
 
   console.log(msg);
@@ -23,12 +28,10 @@ if ( config.help ) {
 let nuckChorris = new WalkerRegexRanger(config.inputDir, PATTERNS);
 nuckChorris.calcLineColmn = !config.perfMode;
 nuckChorris.trackPerfStats = !config.perfMode;
+nuckChorris.summaryOnly = config.summaryOnly;
 
+let numPatterns = Object.keys(PATTERNS).length;
 nuckChorris.findingFileHandler = function ( filepath, findingsInFile, data ) {
-
-  if ( findingsInFile.findings.length < 1 ) {
-    return null;
-  }
 
   if ( !config.perfMode ) {
     let langDetect = flourite(data);
@@ -36,14 +39,19 @@ nuckChorris.findingFileHandler = function ( filepath, findingsInFile, data ) {
     findingsInFile.language = langDetect.language;
   }
 
-  console.log(findingsInFile);
-
   return findingsInFile;
 }
 
-nuckChorris.search().then(() => {
+nuckChorris.search().then((data) => {
 
-  // console.log('>> Done');
+  let out = JSON.stringify(data, null, 2);
+
+  if( config.outputFile ) {
+
+    let filePath = path.resolve(config.outputFile);
+    fs.writeFileSync(filePath, out, {flag: 'w'});
+
+  }
 
 }).catch((err) => {
 
