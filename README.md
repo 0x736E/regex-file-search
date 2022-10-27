@@ -26,6 +26,7 @@ usage: search [options]
 --inputDir='filePath'     : specify a path to search for matches
 --outputFile='filePath'   : specify a path to output results in a file
 --perfMode                : disable performance mode
+--summaryOnly             : do not include match data, only a summary
 ```
 
 ### Example usage
