@@ -17,9 +17,7 @@
     "@root/walk": "^1.1.0",
     "istextorbinary": "^6.0.0",
     "line-column": "^1.0.2",
-    "process.argv": "^0.6.0"
-  },
-  "devDependencies": {
+    "process.argv": "^0.6.0",
     "flourite": "^1.2.2"
   }
 }

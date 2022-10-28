@@ -54,6 +54,10 @@ nuckChorris.findingFileHandler = function ( filepath, findingsInFile, data ) {
 
 nuckChorris.search().then((data) => {
 
+  if(!data) {
+    return;
+  }
+
   if(!config.quiet) {
     console.log(data);
   }
