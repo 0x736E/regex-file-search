@@ -13,6 +13,7 @@ if( !config.patterns ) {
   console.log("Error: patterns argument is not optional\n");
   config.help = true;
 }
+config.patterns = require(path.resolve(config.patterns));
 
 if( !config.inputDir ) {
   console.log("Error: inputDir argument is not optional\n");
@@ -41,12 +42,27 @@ nuckChorris.trackPerfStats = !config.perfMode;
 nuckChorris.summaryOnly = config.summaryOnly;
 
 let numPatterns = Object.keys(config.patterns).length;
+
+let outputFilePath;
+let fileStream;
+if ( config.outputFile ) {
+  outputFilePath = path.resolve(config.outputFile);
+  fileStream = fs.createWriteStream(outputFilePath, { flags:'w' });
+  fileStream.write("[\n");
+}
+
 nuckChorris.findingFileHandler = function ( filepath, findingsInFile, data ) {
+
+  // console.log('findingsInFile', findingsInFile);
 
   if ( !config.perfMode ) {
     let langDetect = flourite(data);
     findingsInFile.linesOfCode = langDetect.linesOfCode;
     findingsInFile.language = langDetect.language;
+  }
+
+  if(fileStream) {
+    fileStream.write(JSON.stringify(findingsInFile, null, 2) + ", \n");
   }
 
   return findingsInFile;
@@ -58,17 +74,25 @@ nuckChorris.search().then((data) => {
     return;
   }
 
+  if(fileStream) {
+    fileStream.write("]");
+    fileStream.end();
+  }
+
   if(!config.quiet) {
     console.log(data);
   }
 
-  if( config.outputFile ) {
-
-    let out = JSON.stringify(data, null, 2);
-    let filePath = path.resolve(config.outputFile);
-    fs.writeFileSync(filePath, out, {flag: 'w'});
-
-  }
+  // if( config.outputFile && data.length > 0 ) {
+  //
+  //   try {
+  //     let filePath = path.resolve(config.outputFile);
+  //     fs.writeFileSync(filePath, JSON.stringify(data, null, 2) , {flag: 'w'});
+  //   } catch ( e ) {
+  //     console.log(e);
+  //   }
+  //
+  // }
 
 }).catch((err) => {
 

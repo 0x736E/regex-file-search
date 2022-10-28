@@ -15,9 +15,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@root/walk": "^1.1.0",
+    "flourite": "^1.2.2",
     "istextorbinary": "^6.0.0",
     "line-column": "^1.0.2",
-    "process.argv": "^0.6.0",
-    "flourite": "^1.2.2"
+    "process.argv": "^0.6.0"
   }
 }
