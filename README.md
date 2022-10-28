@@ -23,7 +23,8 @@ npm run search -- --help
 
 usage: search [options]
 --help                    : this message
---inputDir='filePath'     : specify a path to search for matches
+--patterns                : (required) specify a file to load patterns from (javascript)
+--inputDir='filePath'     : (required) specify a path to search for matches
 --outputFile='filePath'   : specify a path to output results in a file
 --perfMode                : disable performance mode
 --summaryOnly             : do not include match data, only a summary
